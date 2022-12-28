@@ -32,6 +32,7 @@
 }
 
 :where(body) {
+  background-color: white;
   block-size: 100%;
   block-size: 100dvb;
   line-height: 1.5;
