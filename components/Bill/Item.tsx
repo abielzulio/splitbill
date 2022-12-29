@@ -14,7 +14,10 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
         .sort((a, b) => Number(a.name) - Number(b.name))
     : undefined
   return (
-    <div key={bill.id} className="w-full flex items-start gap-[15px]">
+    <div
+      key={bill.id}
+      className="w-full flex items-start gap-[15px] hover:bg-gray-100/50 transition bg-white rounded-xl px-[12px] pt-[10px] pb-[15px]"
+    >
       <div className="w-[48px] h-[40px]">
         <div className="relative w-full h-full rounded-full flex items-center justify-center overflow-hidden">
           <p className="text-sm text-center drop-shadow-lg ml-[3px]">

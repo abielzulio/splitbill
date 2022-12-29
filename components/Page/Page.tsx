@@ -55,7 +55,7 @@ const Page = ({
       <h1 className="text-black text-[32px] font-bold md:px-[28px] px-[22px] md:pt-[32px] pt-[32px] pb-[14px] bg-white w-full">
         {title}
       </h1>
-      <section className="w-full overflow-scroll md:px-[32px] px-[24px] h-full flex flex-col gap-[24px]">
+      <section className="w-full overflow-scroll md:px-[20px] px-[12px] h-full flex flex-col gap-[24px]">
         <section className="h-full mb-[90px]">{children}</section>
       </section>
       {tabState && (
