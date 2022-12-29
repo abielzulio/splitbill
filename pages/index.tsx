@@ -75,7 +75,7 @@ const HomePage: NextPage = () => {
     },
   ]
   return (
-    <Page title="Transaksi">
+    <Page title="Transaksi" tabState="Home">
       {empty ? (
         <div />
       ) : (
