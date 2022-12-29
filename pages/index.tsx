@@ -6,7 +6,7 @@ import { Avatar, Tooltip } from "antd"
 const HomePage: NextPage = () => {
   const empty = false
 
-  const tx = [
+  const unpaidTx = [
     {
       id: "20b0cc8c-88a7-4407-88db-cdc493267594",
       created_at: Date.now(),
