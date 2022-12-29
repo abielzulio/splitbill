@@ -121,6 +121,7 @@ const HomePage: NextPage = () => {
                               <Avatar.Group size="small" className="mt-[5px]">
                                 {personList.map(({ name, isPaid, id }) => (
                                   <Tooltip
+                                    key={id}
                                     title={`${name} ${
                                       isPaid ? "sudah" : "belum"
                                     } membayar`}
