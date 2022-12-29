@@ -8,12 +8,15 @@ const LoginPage: NextPage = () => {
   const router = useRouter()
   return (
     <Page title="Masuk">
-      <section className="h-full w-full flex flex-col items-center">
+      <section className="h-full w-full flex flex-col items-center px-[12px]">
         <Form layout="vertical" form={form} className="w-full my-auto">
-          <Form.Item label="Nomor Handphone" className="font-medium">
-            <Input placeholder="08123456790" className="h-[36px]" />
+          <Form.Item
+            label="Nomor Handphone"
+            className="font-medium bg-transparent"
+          >
+            <Input placeholder="08123456790" className="h-[36px] bg-white" />
           </Form.Item>
-          <Form.Item>
+          <Form.Item className="text-white">
             <Button
               onClick={() => router.push("/")}
               className="w-full bg-black text-white h-[48px] rounded-xl font-semibold hover:bg-black/90 border-none"
