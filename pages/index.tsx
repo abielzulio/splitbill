@@ -28,7 +28,7 @@ const HomePage: NextPage = () => {
             {PAID_BILLS && (
               <section className="w-full flex flex-col gap-[15px]">
                 <h2 className="text-[14px] font-mono uppercase tracking-wide opacity-50">
-                  SUDAH DIBAYAR
+                  Histori
                 </h2>
                 <section className="w-full flex flex-col gap-[15px]">
                   {PAID_BILLS.map((bill) => {

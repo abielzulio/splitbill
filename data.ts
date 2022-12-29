@@ -77,7 +77,7 @@ export const PAID_BILLS: Bill[] = [
     created_at: Date.now(),
     icon: "🥐",
     title: "La Paris",
-    amount: 140_000,
+    amount: 220_000,
     is_paid: true,
     person: [
       {
@@ -111,7 +111,7 @@ export const PAID_BILLS: Bill[] = [
     created_at: Date.now(),
     icon: "🍇",
     title: "Buah Segarz",
-    amount: 130_000,
+    amount: 140_000,
     is_paid: true,
     person: [
       {

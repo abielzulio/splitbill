@@ -29,16 +29,18 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
         <p className="text-[12px] opacity-50">
           {new Date(bill.created_at).toLocaleDateString()}
         </p>
-
         <div className="flex justify-between w-full">
           <div className="flex flex-col">
             <p className="font-semibold">{bill.title}</p>
-            {!bill.is_paid && (
+            {personList && (
               <Avatar.Group size="small" className="mt-[5px]">
-                {personList.map(({ name, is_paid, id }) => (
+                {personList.map(({ name, is_paid, id, amount }) => (
                   <Tooltip
+                    className="text-[10px]"
                     key={id}
-                    title={`${name} ${is_paid ? "sudah" : "belum"} membayar`}
+                    title={`${name} ${
+                      is_paid ? "sudah" : "belum"
+                    } membayar Rp${amount.toLocaleString()}`}
                     placement="bottom"
                   >
                     <Avatar
@@ -57,9 +59,9 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
           </div>
           <div className="flex flex-col items-end gap-[5px]">
             <p className="font-mono tracking-tight">
-              {bill.is_paid
-                ? `Rp${bill.amount.toLocaleString()}`
-                : `Rp${unpaidAmount.toLocaleString()}`}
+              {unpaidAmount
+                ? `Rp${unpaidAmount.toLocaleString()}`
+                : `Rp${bill.amount.toLocaleString()}`}
             </p>
             {!bill.is_paid && (
               <p className="font-mono text-[12px] opacity-50 tracking-tight">
