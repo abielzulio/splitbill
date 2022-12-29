@@ -52,34 +52,30 @@ const Page = ({
   return (
     <>
       <Head title={title + " — Splitbill"} />
-      <main className="w-screen h-screen bg-white text-black sm:p-[24px]">
-        <section className="max-w-[500px] relative h-full mx-auto sm:border-[1px] overflow-hidden sm:border-[#ebebeb] sm:shadow-lg bg-white sm:rounded-xl flex flex-col">
-          <h1 className="text-black text-[32px] font-bold md:px-[28px] px-[22px] md:pt-[32px] pt-[32px] pb-[14px] bg-white w-full">
-            {title}
-          </h1>
-          <section className="w-full overflow-scroll md:px-[32px] px-[24px] h-full flex flex-col gap-[24px]">
-            <section className="h-full mb-[90px]">{children}</section>
+      <h1 className="text-black text-[32px] font-bold md:px-[28px] px-[22px] md:pt-[32px] pt-[32px] pb-[14px] bg-white w-full">
+        {title}
+      </h1>
+      <section className="w-full overflow-scroll md:px-[32px] px-[24px] h-full flex flex-col gap-[24px]">
+        <section className="h-full mb-[90px]">{children}</section>
+      </section>
+      {tabState && (
+        <footer className="h-[64px] bg-[#f4f4f4]/75 backdrop-blur-lg w-full absolute z-50 inset-x-0 bottom-0 border-[#ebebeb] border-t-[1px]">
+          <section className="w-full h-full grid grid-cols-2 items-center justify-center">
+            <button className="flex justify-center">
+              <HomeIcon
+                className="w-6 h-6"
+                style={{ opacity: tabState === "Home" ? 1 : 0.3 }}
+              />
+            </button>
+            <button className="flex justify-center">
+              <UserIcon
+                className="w-6 h-6"
+                style={{ opacity: tabState === "Setting" ? 1 : 0.3 }}
+              />
+            </button>
           </section>
-          {tabState && (
-            <footer className="h-[64px] bg-[#f4f4f4]/75 backdrop-blur-lg w-full absolute z-50 inset-x-0 bottom-0 border-[#ebebeb] border-t-[1px]">
-              <section className="w-full h-full grid grid-cols-2 items-center justify-center">
-                <button className="flex justify-center">
-                  <HomeIcon
-                    className="w-6 h-6"
-                    style={{ opacity: tabState === "Home" ? 1 : 0.3 }}
-                  />
-                </button>
-                <button className="flex justify-center">
-                  <UserIcon
-                    className="w-6 h-6"
-                    style={{ opacity: tabState === "Setting" ? 1 : 0.3 }}
-                  />
-                </button>
-              </section>
-            </footer>
-          )}
-        </section>
-      </main>
+        </footer>
+      )}
     </>
   )
 }
