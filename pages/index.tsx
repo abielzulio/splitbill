@@ -2,14 +2,17 @@ import { BillItem } from "components/Bill/Item"
 import Page from "components/Page"
 import { PAID_BILLS, UNPAID_BILLS } from "data"
 import { NextPage } from "next"
+import { useRouter } from "next/router"
 
 const HomePage: NextPage = () => {
   const empty = false
-
+  const router = useRouter()
   return (
     <Page title="Transaksi" tabState="Home">
       {empty ? (
-        <div />
+        <section className="h-full w-full justify-center flex items-center text-center text-[14px] opacity-50">
+          <p>Klik ikon "+" untuk membuat urunan pertama Anda</p>
+        </section>
       ) : (
         <>
           <section className="w-full flex flex-col gap-[30px]">
