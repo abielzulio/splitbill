@@ -81,46 +81,45 @@ const HomePage: NextPage = () => {
       ) : (
         <>
           <section className="w-full flex flex-col gap-[30px]">
-            <section className="w-full flex flex-col gap-[10px]">
-              <h2 className="text-[14px] font-mono uppercase tracking-wide opacity-50">
-                Belum DIBAYAR
-              </h2>
-              <section className="w-full flex flex-col gap-[15px]">
-                {tx.map((item) => {
-                  const unpaidAmount = item.person
-                    .filter(({ isPaid }) => isPaid == false)
-                    .map((item) => item.amount)
-                    .reduce((item, num) => item + num)
-                  return (
-                    <div
-                      key={item.id}
-                      className="w-full flex items-start gap-[15px]"
-                    >
-                      <div className="w-[48px] h-[40px]">
-                        <div className="relative w-full h-full rounded-full flex items-center justify-center overflow-hidden">
-                          <p className="text-sm text-center drop-shadow-lg ml-[3px]">
-                            {item.icon}
-                          </p>
-                          <p className="absolute blur opacity-40 scale-150 text-[32px] contrast-200 brightness-10 saturate-200">
-                            {item.icon}
-                          </p>
+            {unpaidTx && (
+              <section className="w-full flex flex-col">
+                <h2 className="text-[14px] font-mono uppercase tracking-wide text-gray-400 w-full pb-[10px] sticky top-[0px] bg-white z-10">
+                  Belum Dibayar
+                </h2>
+                <section className="w-full flex flex-col gap-[15px]">
+                  {unpaidTx.map((item) => {
+                    const unpaidAmount = item.person
+                      .filter(({ isPaid }) => isPaid == false)
+                      .map((item) => item.amount)
+                      .reduce((item, num) => item + num)
+                    const personList = item.person
+                      .sort((a, b) => Number(a.isPaid) - Number(b.isPaid))
+                      .sort((a, b) => Number(a.name) - Number(b.name))
+                    return (
+                      <div
+                        key={item.id}
+                        className="w-full flex items-start gap-[15px]"
+                      >
+                        <div className="w-[48px] h-[40px]">
+                          <div className="relative w-full h-full rounded-full flex items-center justify-center overflow-hidden">
+                            <p className="text-sm text-center drop-shadow-lg ml-[3px]">
+                              {item.icon}
+                            </p>
+                            <p className="absolute blur opacity-40 scale-150 text-[32px] contrast-200 brightness-10 saturate-200">
+                              {item.icon}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex flex-col w-full">
-                        <p className="text-[12px] opacity-50">
-                          {new Date(item.created_at).toLocaleDateString()}
-                        </p>
+                        <div className="flex flex-col w-full">
+                          <p className="text-[12px] opacity-50">
+                            {new Date(item.created_at).toLocaleDateString()}
+                          </p>
 
-                        <div className="flex justify-between w-full">
-                          <div className="flex flex-col">
-                            <p className="font-semibold">{item.title}</p>
-                            <Avatar.Group size="small" className="mt-[5px]">
-                              {item.person
-                                .sort(
-                                  (a, b) => Number(a.isPaid) - Number(b.isPaid)
-                                )
-                                .sort((a, b) => Number(a.name) - Number(b.name))
-                                .map(({ name, isPaid }) => (
+                          <div className="flex justify-between w-full">
+                            <div className="flex flex-col">
+                              <p className="font-semibold">{item.title}</p>
+                              <Avatar.Group size="small" className="mt-[5px]">
+                                {personList.map(({ name, isPaid, id }) => (
                                   <Tooltip
                                     title={`${name} ${
                                       isPaid ? "sudah" : "belum"
@@ -140,23 +139,24 @@ const HomePage: NextPage = () => {
                                     </Avatar>
                                   </Tooltip>
                                 ))}
-                            </Avatar.Group>
-                          </div>
-                          <div className="flex flex-col items-end gap-[5px]">
-                            <p className="font-mono tracking-tight">
-                              Rp{unpaidAmount.toLocaleString()}
-                            </p>
-                            <p className="font-mono text-[12px] opacity-50 tracking-tight">
-                              Rp{item.amount.toLocaleString()}
-                            </p>
+                              </Avatar.Group>
+                            </div>
+                            <div className="flex flex-col items-end gap-[5px]">
+                              <p className="font-mono tracking-tight">
+                                Rp{unpaidAmount.toLocaleString()}
+                              </p>
+                              <p className="font-mono text-[12px] opacity-50 tracking-tight">
+                                Rp{item.amount.toLocaleString()}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+                </section>
               </section>
-            </section>
+            )}
             <h2 className="text-[14px] font-mono uppercase tracking-wide opacity-50">
               SUDAH DIBAYAR
             </h2>
