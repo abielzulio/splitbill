@@ -33,7 +33,9 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
                     title={`${name} ${
                       is_paid ? "sudah" : "belum"
                     } membayar Rp${amount.toLocaleString()}`}
-                    placement="bottom"
+                    placement="bottomLeft"
+                    color={is_paid ? "#30c55e" : "#6b7280"}
+                    arrowPointAtCenter
                   >
                     <Avatar
                       className={`${
