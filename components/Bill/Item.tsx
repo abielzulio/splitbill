@@ -17,7 +17,7 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
   return (
     <div
       key={bill.id}
-      className="w-full flex items-start gap-[15px] hover:bg-gray-100/50 transition bg-white rounded-xl px-[12px] pt-[10px] pb-[15px]"
+      className="w-full flex items-start gap-[15px] hover:bg-gray-100 transition bg-white rounded-xl px-[12px] pt-[10px] pb-[15px]"
     >
       <Icon.Emoji>{bill.icon}</Icon.Emoji>
       <div className="flex flex-col w-full">
