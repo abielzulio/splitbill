@@ -55,7 +55,7 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
             )}
           </div>
           <div className="flex flex-col items-end gap-[5px]">
-            <p className="font-mono tracking-tight">
+            <p className="font-mono tracking-tight font-semibold">
               {unpaidAmount
                 ? `Rp${unpaidAmount.toLocaleString()}`
                 : `Rp${bill.amount.toLocaleString()}`}

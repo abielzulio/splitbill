@@ -18,10 +18,10 @@ const Page = ({
         {title}
       </h1>
       <section className="w-full overflow-scroll md:px-[20px] px-[12px] h-full flex flex-col gap-[24px]">
-        <section className="h-full mb-[90px]">{children}</section>
+        {children}
       </section>
       {tabState && (
-        <footer className="h-[64px] bg-[#f4f4f4]/75 backdrop-blur-lg w-full absolute z-50 inset-x-0 bottom-0 border-[#ebebeb] border-t-[1px]">
+        <footer className="h-[64px] bg-[#f4f4f4]/50 backdrop-blur-lg w-full absolute z-50 inset-x-0 bottom-0 border-[#ebebeb] border-t-[1px]">
           <section className="w-full h-full grid grid-cols-2 items-center justify-center">
             <button className="flex justify-center">
               <Icon.Bill
