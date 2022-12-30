@@ -14,6 +14,7 @@ const Page = ({
   title: { primary?: string; secondary?: string }
   tabState?: "Home" | "Setting"
 }) => {
+  const router = useRouter()
   return (
     <>
       <Head title={title.secondary ?? title.primary + " — Splitbill"} />
@@ -39,7 +40,6 @@ const Page = ({
             onClick={() => button.onClick()}
           >
             {button.icon}
-            {button.label && <span>{button.label}</span>}
           </button>
         )}
       </div>
