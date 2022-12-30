@@ -28,7 +28,21 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
           <div className="flex flex-col">
             <p className="font-semibold">{bill.title}</p>
             {personList && (
-              <Avatar.Group size="small" className="mt-[5px]">
+              <Avatar.Group
+                size="small"
+                className="mt-[5px]"
+                maxCount={12}
+                maxStyle={
+                  personList[12]
+                    ? {
+                        backgroundColor: personList[12].is_paid
+                          ? "#30c55e"
+                          : "#6b7280",
+                        color: "white",
+                      }
+                    : undefined
+                }
+              >
                 {personList.map(({ name, is_paid, id, amount }) => (
                   <Tooltip
                     className="text-[10px]"
