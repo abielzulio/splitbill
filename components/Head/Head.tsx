@@ -17,7 +17,10 @@ const Head = (props: HeadProps) => {
       <link rel="shortcut icon" href={favicon} />
       <title>{title}</title>
       <meta charSet="utf-8" />
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta
+        name="viewport"
+        content="initial-scale=1.0, width=device-width, viewport-fit=cover"
+      />
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
       <meta name="author" content={author} />

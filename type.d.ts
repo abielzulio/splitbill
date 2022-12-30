@@ -4,7 +4,7 @@ export interface Person {
   phone?: number
 }
 
-export interface PersonBill extends Person {
+export interface BilledPerson extends Person {
   amount: number
   is_paid: boolean
 }
@@ -16,5 +16,5 @@ export interface Bill {
   title: string
   amount: number
   is_paid: boolean
-  person: PersonBill[]
+  person: BilledPerson[]
 }

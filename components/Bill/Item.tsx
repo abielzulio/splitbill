@@ -1,5 +1,7 @@
 import { Bill } from "type"
-import { Avatar, Tooltip } from "antd"
+import { Avatar, Button, message, Tooltip } from "antd"
+import { Icon } from "components/Icon"
+import { green, grey } from "color"
 
 export const BillItem = ({ bill }: { bill: Bill }) => {
   const unpaidAmount = !bill.is_paid
@@ -8,43 +10,57 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
         .map((item) => item.amount)
         .reduce((item, num) => item + num)
     : undefined
-  const personList = !bill.is_paid
+  const billedPerson = !bill.is_paid
     ? bill.person
         .sort((a, b) => Number(a.is_paid) - Number(b.is_paid))
         .sort((a, b) => Number(a.name) - Number(b.name))
     : undefined
+
+  const onClickToShare = () => {
+    message.open({
+      type: "success",
+      content: `Link nota "${bill.title}" telah disalin!`,
+      duration: 5,
+    })
+  }
   return (
     <div
       key={bill.id}
-      className="w-full flex items-start gap-[15px] hover:bg-gray-100/50 transition bg-white rounded-xl px-[12px] pt-[10px] pb-[15px]"
+      className={`w-full flex items-start gap-[15px] ${
+        bill.is_paid && "hover:bg-gray-100"
+      } transition bg-white rounded-xl px-[12px] pt-[10px] pb-[15px]`}
     >
-      <div className="w-[48px] h-[40px]">
-        <div className="relative w-full h-full rounded-full flex items-center justify-center overflow-hidden">
-          <p className="text-sm text-center drop-shadow-lg ml-[3px]">
-            {bill.icon}
-          </p>
-          <p className="absolute blur opacity-40 scale-150 text-[32px] contrast-200 brightness-10 saturate-200">
-            {bill.icon}
-          </p>
-        </div>
-      </div>
-      <div className="flex flex-col w-full">
-        <p className="text-[12px] opacity-50">
-          {new Date(bill.created_at).toLocaleDateString()}
-        </p>
+      <Icon.Emoji>{bill.icon}</Icon.Emoji>
+      <div className="flex flex-col gap-[10px] w-full">
         <div className="flex justify-between w-full">
           <div className="flex flex-col">
             <p className="font-semibold">{bill.title}</p>
-            {personList && (
-              <Avatar.Group size="small" className="mt-[5px]">
-                {personList.map(({ name, is_paid, id, amount }) => (
+            {billedPerson && (
+              <Avatar.Group
+                size="small"
+                className="my-[5px]"
+                maxCount={12}
+                maxStyle={
+                  billedPerson[12]
+                    ? {
+                        backgroundColor: billedPerson[12].is_paid
+                          ? green.primary
+                          : grey.primary,
+                        color: "white",
+                      }
+                    : undefined
+                }
+              >
+                {billedPerson.map(({ name, is_paid, id, amount }) => (
                   <Tooltip
                     className="text-[10px]"
                     key={id}
                     title={`${name} ${
                       is_paid ? "sudah" : "belum"
                     } membayar Rp${amount.toLocaleString()}`}
-                    placement="bottom"
+                    placement="bottomLeft"
+                    color={is_paid ? green.primary : grey.primary}
+                    arrowPointAtCenter
                   >
                     <Avatar
                       className={`${
@@ -59,9 +75,12 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
                 ))}
               </Avatar.Group>
             )}
+            <p className="text-[12px] opacity-50">
+              {new Date(bill.created_at).toLocaleDateString()}
+            </p>
           </div>
           <div className="flex flex-col items-end gap-[5px]">
-            <p className="font-mono tracking-tight">
+            <p className="font-mono tracking-tight font-semibold">
               {unpaidAmount
                 ? `Rp${unpaidAmount.toLocaleString()}`
                 : `Rp${bill.amount.toLocaleString()}`}
@@ -73,6 +92,14 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
             )}
           </div>
         </div>
+        {!bill.is_paid && (
+          <div className="grid grid-cols-2 gap-[5px]">
+            <Button>Open</Button>
+            <Button onClick={() => onClickToShare()} type="primary">
+              Share
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   )

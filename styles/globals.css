@@ -2,6 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
+/* https://github.com/mvllow/tailwindcss-safe-area */
+@layer base {
+  html {
+    height: -webkit-fill-available;
+  }
+
+  body {
+    height: -webkit-fill-available;
+  }
+
+  #root {
+    height: -webkit-fill-available;
+  }
+
+  .h-screen-safe {
+    height: calc(
+      100vh - (env(safe-area-inset-top) + env(safe-area-inset-bottom))
+    );
+    height: -webkit-fill-available;
+  }
+}
+
+.ant-btn-primary:not(:disabled) {
+  @apply text-white bg-black border-transparent border-[1.5px];
+}
+
+.ant-btn-primary:not(:disabled):hover {
+  @apply text-black bg-white border-gray-800 border-[1.5px];
+}
+
+.ant-btn-default:not(:disabled) {
+  @apply text-black bg-white border-gray-300 border-[1.5px];
+}
+
+.ant-btn-default:not(:disabled):hover {
+  @apply text-black bg-white border-black border-[1.5px];
+}
+
 *,
 *::before,
 *::after {
@@ -16,6 +54,7 @@
 
 :where(html) {
   -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: transparent;
   color-scheme: dark light;
 }
 
