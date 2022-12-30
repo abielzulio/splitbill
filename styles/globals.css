@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+/* https://github.com/mvllow/tailwindcss-safe-area */
+@layer base {
+  html {
+    height: -webkit-fill-available;
+  }
+
+  body {
+    height: -webkit-fill-available;
+  }
+
+  #root {
+    height: -webkit-fill-available;
+  }
+}
+
 *,
 *::before,
 *::after {
