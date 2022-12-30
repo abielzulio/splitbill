@@ -15,7 +15,7 @@ const BillsPage: NextPage = () => {
         </section>
       ) : (
         <>
-          <section className="w-full flex flex-col gap-[30px] h-full">
+          <section className="w-full flex flex-col gap-[20px] h-full">
             {UNPAID_BILLS && (
               <section className="w-full flex flex-col">
                 <h2 className="text-[14px] font-mono uppercase tracking-wide text-gray-400 w-full pb-[10px] sticky top-[0px] bg-white z-10 px-[12px]">
