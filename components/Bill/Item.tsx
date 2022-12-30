@@ -9,7 +9,7 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
         .map((item) => item.amount)
         .reduce((item, num) => item + num)
     : undefined
-  const personList = !bill.is_paid
+  const billedPerson = !bill.is_paid
     ? bill.person
         .sort((a, b) => Number(a.is_paid) - Number(b.is_paid))
         .sort((a, b) => Number(a.name) - Number(b.name))
@@ -27,15 +27,15 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
         <div className="flex justify-between w-full">
           <div className="flex flex-col">
             <p className="font-semibold">{bill.title}</p>
-            {personList && (
+            {billedPerson && (
               <Avatar.Group
                 size="small"
                 className="mt-[5px]"
                 maxCount={12}
                 maxStyle={
-                  personList[12]
+                  billedPerson[12]
                     ? {
-                        backgroundColor: personList[12].is_paid
+                        backgroundColor: billedPerson[12].is_paid
                           ? "#30c55e"
                           : "#6b7280",
                         color: "white",
@@ -43,7 +43,7 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
                     : undefined
                 }
               >
-                {personList.map(({ name, is_paid, id, amount }) => (
+                {billedPerson.map(({ name, is_paid, id, amount }) => (
                   <Tooltip
                     className="text-[10px]"
                     key={id}
