@@ -1,6 +1,7 @@
 import Head from "components/Head"
 import { Icon } from "components/Icon"
 import type { PageButton } from "components/type"
+import { useRouter } from "next/router"
 
 const Page = ({
   children,
@@ -10,14 +11,28 @@ const Page = ({
 }: {
   children: JSX.Element
   button?: PageButton
-  title: string
+  title: { primary?: string; secondary?: string }
   tabState?: "Home" | "Setting"
 }) => {
   return (
     <>
-      <Head title={title + " — Splitbill"} />
+      <Head title={title.secondary ?? title.primary + " — Splitbill"} />
       <div className="flex justify-between md:px-[32px] px-[24px] md:pt-[32px] pt-[32px] pb-[14px] bg-white w-full">
-        <h1 className="text-black text-[32px] font-bold w-fit">{title}</h1>
+        {title.primary && (
+          <h1 className="text-black text-[32px] font-bold w-fit">
+            {title.primary}
+          </h1>
+        )}
+        {title.secondary && (
+          <div className="w-full flex flex-col gap-[10px]">
+            <button onClick={() => router.back()} className="w-fit">
+              <Icon.ArrowLeft className="w-6 h-6" />
+            </button>
+            <h2 className="text-black text-[24px] font-semibold w-fit">
+              {title.secondary}
+            </h2>
+          </div>
+        )}
         {button && (
           <button
             className="w-fit h-full flex flex-row gap-[5px] items-center justify-center"

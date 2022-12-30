@@ -12,11 +12,12 @@ const BillsPage: NextPage = () => {
 
   const button: PageButton = {
     icon: <Icon.New className="text-black w-6 h-6 opacity-50" />,
+    label: "Buat urunan baru",
     onClick: () => router.push("/nota/baru"),
   }
 
   return (
-    <Page title="Nota" tabState="Home" button={button}>
+    <Page title={{ primary: "Nota" }} tabState="Home" button={button}>
       {empty ? (
         <section className="h-full w-full justify-center flex items-center text-center text-[14px] opacity-50">
           <p>Klik ikon "+" untuk membuat urunan pertama Anda</p>
