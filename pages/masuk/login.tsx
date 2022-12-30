@@ -7,7 +7,7 @@ const LoginPage: NextPage = () => {
   const [form] = Form.useForm()
   const router = useRouter()
   return (
-    <Page title="Masuk">
+    <Page title={{ primary: "Masuk" }}>
       <section className="h-full w-full flex flex-col items-center px-[12px]">
         <Form layout="vertical" form={form} className="w-full my-auto">
           <Form.Item
