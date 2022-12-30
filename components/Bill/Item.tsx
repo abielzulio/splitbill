@@ -15,10 +15,7 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
         .sort((a, b) => Number(a.name) - Number(b.name))
     : undefined
   return (
-    <div
-      key={bill.id}
-      className="w-full flex items-start gap-[15px] hover:bg-gray-100 transition bg-white rounded-xl px-[12px] pt-[10px] pb-[15px]"
-    >
+    <div className="w-full flex items-start gap-[15px] hover:bg-gray-100 transition bg-white rounded-xl px-[12px] pt-[10px] pb-[15px]">
       <Icon.Emoji>{bill.icon}</Icon.Emoji>
       <div className="flex flex-col w-full">
         <p className="text-[12px] opacity-50">

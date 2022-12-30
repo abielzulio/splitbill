@@ -23,7 +23,7 @@ const HomePage: NextPage = () => {
                 </h2>
                 <section className="w-full flex flex-col">
                   {UNPAID_BILLS.map((bill) => {
-                    return <BillItem bill={bill} />
+                    return <BillItem bill={bill} key={bill.id} />
                   })}
                 </section>
               </section>
