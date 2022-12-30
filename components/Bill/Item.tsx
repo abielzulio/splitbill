@@ -15,6 +15,14 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
         .sort((a, b) => Number(a.is_paid) - Number(b.is_paid))
         .sort((a, b) => Number(a.name) - Number(b.name))
     : undefined
+
+  const onClickToShare = () => {
+    message.open({
+      type: "success",
+      content: `Link nota "${bill.title}" telah disalin!`,
+      duration: 5,
+    })
+  }
   return (
     <div
       key={bill.id}
