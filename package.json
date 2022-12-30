@@ -19,7 +19,6 @@
     "next": "13.0.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tailwindcss-safe-area": "^0.2.2",
     "typescript": "4.9.4"
   },
   "devDependencies": {
