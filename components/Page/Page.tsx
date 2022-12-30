@@ -1,6 +1,6 @@
 import Head from "components/Head"
 import React from "react"
-import { HomeIcon, UserIcon } from "components/Icon"
+import { Icon } from "components/Icon"
 
 const Page = ({
   children,
@@ -24,13 +24,13 @@ const Page = ({
         <footer className="h-[64px] bg-[#f4f4f4]/75 backdrop-blur-lg w-full absolute z-50 inset-x-0 bottom-0 border-[#ebebeb] border-t-[1px]">
           <section className="w-full h-full grid grid-cols-2 items-center justify-center">
             <button className="flex justify-center">
-              <HomeIcon
+              <Icon.Home
                 className="w-6 h-6"
                 style={{ opacity: tabState === "Home" ? 1 : 0.3 }}
               />
             </button>
             <button className="flex justify-center">
-              <UserIcon
+              <Icon.Plus
                 className="w-6 h-6"
                 style={{ opacity: tabState === "Setting" ? 1 : 0.3 }}
               />
