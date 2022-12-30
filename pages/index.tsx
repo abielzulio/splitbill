@@ -15,28 +15,24 @@ const HomePage: NextPage = () => {
         </section>
       ) : (
         <>
-          <section className="w-full flex flex-col gap-[30px]">
+          <section className="w-full flex flex-col gap-[30px] h-full">
             {UNPAID_BILLS && (
               <section className="w-full flex flex-col">
                 <h2 className="text-[14px] font-mono uppercase tracking-wide text-gray-400 w-full pb-[10px] sticky top-[0px] bg-white z-10 px-[12px]">
                   Belum Dibayar
                 </h2>
                 <section className="w-full flex flex-col">
-                  {UNPAID_BILLS.map((bill) => {
-                    return <BillItem bill={bill} key={bill.id} />
-                  })}
+                  {UNPAID_BILLS.map((bill) => bill && <BillItem bill={bill} />)}
                 </section>
               </section>
             )}
             {PAID_BILLS && (
-              <section className="w-full flex flex-col">
+              <section className="w-full flex flex-col pb-[72px]">
                 <h2 className="text-[14px] font-mono uppercase tracking-wide text-gray-400 w-full pb-[10px] sticky top-[0px] bg-white z-10 px-[12px]">
                   Histori
                 </h2>
                 <section className="w-full flex flex-col">
-                  {PAID_BILLS.map((bill) => {
-                    return <BillItem bill={bill} />
-                  })}
+                  {PAID_BILLS.map((bill) => bill && <BillItem bill={bill} />)}
                 </section>
               </section>
             )}
