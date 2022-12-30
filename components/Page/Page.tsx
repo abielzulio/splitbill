@@ -1,5 +1,4 @@
 import Head from "components/Head"
-import React from "react"
 import { Icon } from "components/Icon"
 import type { PageButton } from "components/type"
 
@@ -9,7 +8,7 @@ const Page = ({
   button,
   tabState,
 }: {
-  children: React.ReactNode
+  children: JSX.Element
   button?: PageButton
   title: string
   tabState?: "Home" | "Setting"
