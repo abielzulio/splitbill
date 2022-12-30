@@ -1,5 +1,22 @@
 interface IconProps extends React.SVGProps<SVGSVGElement> {}
 
+export const EmojiIcon = ({
+  className = "w-[48px] h-[40px]",
+  children,
+}: {
+  className?: string
+  children: React.ReactNode
+}) => (
+  <div className={className}>
+    <div className="relative w-full h-full rounded-full flex items-center justify-center overflow-hidden">
+      <p className="text-sm text-center drop-shadow-lg ml-[3px]">{children}</p>
+      <p className="absolute blur opacity-40 scale-150 text-[32px] contrast-200 brightness-10 saturate-200">
+        {children}
+      </p>
+    </div>
+  </div>
+)
+
 export const PlusIcon = (props: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

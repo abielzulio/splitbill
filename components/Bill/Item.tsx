@@ -1,5 +1,6 @@
 import { Bill } from "type"
 import { Avatar, Tooltip } from "antd"
+import { EmojiIcon } from "components/Icon"
 
 export const BillItem = ({ bill }: { bill: Bill }) => {
   const unpaidAmount = !bill.is_paid
@@ -18,16 +19,7 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
       key={bill.id}
       className="w-full flex items-start gap-[15px] hover:bg-gray-100/50 transition bg-white rounded-xl px-[12px] pt-[10px] pb-[15px]"
     >
-      <div className="w-[48px] h-[40px]">
-        <div className="relative w-full h-full rounded-full flex items-center justify-center overflow-hidden">
-          <p className="text-sm text-center drop-shadow-lg ml-[3px]">
-            {bill.icon}
-          </p>
-          <p className="absolute blur opacity-40 scale-150 text-[32px] contrast-200 brightness-10 saturate-200">
-            {bill.icon}
-          </p>
-        </div>
-      </div>
+      <EmojiIcon>{bill.icon}</EmojiIcon>
       <div className="flex flex-col w-full">
         <p className="text-[12px] opacity-50">
           {new Date(bill.created_at).toLocaleDateString()}
