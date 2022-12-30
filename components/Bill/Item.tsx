@@ -16,12 +16,13 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
         .sort((a, b) => Number(a.name) - Number(b.name))
     : undefined
 
-  const onClickToShare = () => {
+  const onClickToShare = ({ title, url }: { title: string; url: string }) => {
     message.open({
       type: "success",
-      content: `Link nota "${bill.title}" telah disalin!`,
+      content: `Link nota "${title}" telah disalin!`,
       duration: 5,
     })
+    navigator.clipboard.writeText(url)
   }
   return (
     <div
@@ -94,10 +95,14 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
         </div>
         {!bill.is_paid && (
           <div className="grid grid-cols-2 gap-[5px]">
-            <Button>Open</Button>
-            <Button onClick={() => onClickToShare()} type="primary">
-              Share
+            <Button
+              onClick={() =>
+                onClickToShare({ title: bill.title, url: bill.url })
+              }
+            >
+              Bagikan
             </Button>
+            <Button type="primary">Buka</Button>
           </div>
         )}
       </div>

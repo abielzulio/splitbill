@@ -12,6 +12,7 @@ export interface BilledPerson extends Person {
 export interface Bill {
   id: string
   created_at: number
+  url: string
   icon: string
   title: string
   amount: number
