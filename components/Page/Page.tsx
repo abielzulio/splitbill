@@ -24,13 +24,13 @@ const Page = ({
         <footer className="h-[64px] bg-[#f4f4f4]/75 backdrop-blur-lg w-full absolute z-50 inset-x-0 bottom-0 border-[#ebebeb] border-t-[1px]">
           <section className="w-full h-full grid grid-cols-2 items-center justify-center">
             <button className="flex justify-center">
-              <Icon.Home
+              <Icon.Bill
                 className="w-6 h-6"
                 style={{ opacity: tabState === "Home" ? 1 : 0.3 }}
               />
             </button>
             <button className="flex justify-center">
-              <Icon.Plus
+              <Icon.User
                 className="w-6 h-6"
                 style={{ opacity: tabState === "Setting" ? 1 : 0.3 }}
               />
