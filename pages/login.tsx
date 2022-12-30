@@ -18,8 +18,9 @@ const LoginPage: NextPage = () => {
           </Form.Item>
           <Form.Item className="text-white">
             <Button
+              type="default"
               onClick={() => router.push("/")}
-              className="w-full bg-black text-white h-[48px] rounded-xl font-semibold hover:bg-black/90 border-none"
+              className="w-full h-[48px] rounded-xl font-semibold"
             >
               Log-in
             </Button>

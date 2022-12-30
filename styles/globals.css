@@ -24,6 +24,22 @@
   }
 }
 
+.ant-btn-primary:not(:disabled) {
+  @apply text-white bg-black border-transparent border-[1.5px];
+}
+
+.ant-btn-primary:not(:disabled):hover {
+  @apply text-black bg-white border-gray-800 border-[1.5px];
+}
+
+.ant-btn-default:not(:disabled) {
+  @apply text-black bg-white border-gray-300 border-[1.5px];
+}
+
+.ant-btn-default:not(:disabled):hover {
+  @apply text-black bg-white border-black border-[1.5px];
+}
+
 *,
 *::before,
 *::after {
