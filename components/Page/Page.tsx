@@ -1,22 +1,34 @@
 import Head from "components/Head"
 import React from "react"
 import { Icon } from "components/Icon"
+import type { PageButton } from "components/type"
 
 const Page = ({
   children,
   title,
+  button,
   tabState,
 }: {
   children: React.ReactNode
+  button?: PageButton
   title: string
   tabState?: "Home" | "Setting"
 }) => {
   return (
     <>
       <Head title={title + " — Splitbill"} />
-      <h1 className="text-black text-[32px] font-bold md:px-[32px] px-[24px] md:pt-[32px] pt-[32px] pb-[14px] bg-white w-full">
-        {title}
-      </h1>
+      <div className="flex justify-between md:px-[32px] px-[24px] md:pt-[32px] pt-[32px] pb-[14px] bg-white w-full">
+        <h1 className="text-black text-[32px] font-bold w-fit">{title}</h1>
+        {button && (
+          <button
+            className="w-fit h-full flex flex-row gap-[5px] items-center justify-center"
+            onClick={() => button.onClick()}
+          >
+            {button.icon}
+            {button.label && <span>{button.label}</span>}
+          </button>
+        )}
+      </div>
       <section className="w-full overflow-scroll md:px-[20px] px-[12px] h-full flex flex-col gap-[24px]">
         {children}
       </section>

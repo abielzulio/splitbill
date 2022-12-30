@@ -1,14 +1,22 @@
 import { BillItem } from "components/Bill/Item"
+import { Icon } from "components/Icon"
 import Page from "components/Page"
 import { PAID_BILLS, UNPAID_BILLS } from "data"
 import { NextPage } from "next"
 import { useRouter } from "next/router"
+import type { PageButton } from "components/type"
 
 const BillsPage: NextPage = () => {
   const empty = false
   const router = useRouter()
+
+  const button: PageButton = {
+    icon: <Icon.New className="text-black w-6 h-6 opacity-50" />,
+    onClick: () => router.push("/nota/baru"),
+  }
+
   return (
-    <Page title="Nota" tabState="Home">
+    <Page title="Nota" tabState="Home" button={button}>
       {empty ? (
         <section className="h-full w-full justify-center flex items-center text-center text-[14px] opacity-50">
           <p>Klik ikon "+" untuk membuat urunan pertama Anda</p>
