@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: [""], // Add your CDN image url here
+    domains: ["upload.wikimedia.org"], // Add your CDN image url here
   },
 }
 
