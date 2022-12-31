@@ -11,7 +11,9 @@ const BillsPage: NextPage = () => {
   const router = useRouter()
 
   const button: PageButton = {
-    icon: <Icon.New className="text-black w-6 h-6 opacity-50" />,
+    icon: (
+      <Icon.New className="text-black w-6 h-6 opacity-50 hover:opacity-100 transition" />
+    ),
     label: "Buat urunan baru",
     onClick: () => router.push("/nota/baru"),
   }
