@@ -35,9 +35,7 @@ const NewBillPage: NextPage = () => {
     if (imageLoading) {
       setTimeout(() => {
         setImageloading(false)
-        setImageUrl(
-          "https://upload.wikimedia.org/wikipedia/commons/0/0b/ReceiptSwiss.jpg"
-        )
+        setImageUrl("/nota.jpg")
       }, 2000)
     }
   }, [imageLoading])
