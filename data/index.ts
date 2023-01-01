@@ -1,4 +1,4 @@
-import type { Bill, OCRBill } from "data/type"
+import type { Bill } from "data/type"
 
 export const UNPAID_BILLS: Bill[] = [
   {
