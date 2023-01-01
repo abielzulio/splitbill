@@ -1,80 +1,21 @@
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons"
 import { Button, Form, Input } from "antd"
 import Page from "components/Page"
-import { BilledItemsContext } from "utils/context"
+import { BILLED_ITEMS } from "data"
 import type { BilledItem } from "data/type"
 import { NextPage } from "next"
 import { useRouter } from "next/router"
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
+import { BilledItemsContext } from "utils/context"
 import { onFinishFailed } from "utils/handler"
-import { BILLED_ITEMS } from "data"
-
-const BilledItems = () => {
-  const { billedItems, onChangeBilledItem } = useContext(BilledItemsContext)
-
-  const onChangeItemTitle = (item: BilledItem, title: string) => {
-    onChangeBilledItem({
-      ...item,
-      title,
-    })
-  }
-
-  const onChangeItemQty = (item: BilledItem, qty: number) => {
-    onChangeBilledItem({
-      ...item,
-      qty,
-    })
-  }
-
-  const onChangeItemPrice = (item: BilledItem, price: number) => {
-    onChangeBilledItem({
-      ...item,
-      price,
-    })
-  }
-
-  return (
-    <>
-      {billedItems.map((item) => (
-        <Input.Group
-          className="grid grid-cols-10 gap-[5px] w-full h-full"
-          key={item.id}
-        >
-          <Input
-            defaultValue={item.title}
-            required
-            value={item.title}
-            className="w-full col-span-4 rounded-none bg-transparent"
-            onChange={(e) => onChangeItemTitle(item, e.target.value)}
-          />
-          <Input
-            defaultValue={item.price}
-            value={item.price}
-            required
-            className="col-span-2 rounded-md text-right bg-transparent"
-            onChange={(e) => onChangeItemPrice(item, Number(e.target.value))}
-          />
-          <Input
-            defaultValue={item.qty}
-            value={item.qty}
-            required
-            className="col-span-1 rounded-md text-right bg-transparent"
-            onChange={(e) => onChangeItemQty(item, Number(e.target.value))}
-          />
-          <p className="col-span-3 rounded-md border-transparent w-full text-right font-mono pt-[8px]">
-            {(item.price * item.qty).toLocaleString()}
-          </p>
-        </Input.Group>
-      ))}
-    </>
-  )
-}
+import { BilledItems } from "components/Bill/BilledItems"
+import Image from "next/image"
 
 const NewBillPage: NextPage = () => {
   const [form] = Form.useForm()
   const router = useRouter()
 
-  const [stepState, setStepState] = useState<number>(2)
+  const [stepState, setStepState] = useState<number>(1)
 
   const [imageLoading, setImageloading] = useState<boolean>(false)
   const [imageUrl, setImageUrl] = useState<string>()
@@ -130,7 +71,7 @@ const NewBillPage: NextPage = () => {
     } else {
       form.setFieldsValue({ billImg: undefined })
     }
-  }, [imageUrl])
+  }, [imageUrl, form])
 
   const [billedItems, setBilledItems] = useState<BilledItem[]>(
     BILLED_ITEMS.items
