@@ -1,11 +1,18 @@
 import { Input } from "antd"
 import type { BilledItem } from "data/type"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { BilledItemsContext } from "utils/context"
 
 export const BilledItems = () => {
-  const { billedItems, onChangeBilledItem, deleteBilledItem } =
+  const { billedItems, onChangeBilledItem, deleteBilledItem, addBilledItem } =
     useContext(BilledItemsContext)
+
+  const [newBilledItem, setNewBilledItem] = useState<BilledItem>({
+    id: 5,
+    title: "",
+    qty: 0,
+    price: 0,
+  })
 
   const onChangeItemTitle = (item: BilledItem, title: string) => {
     onChangeBilledItem({
@@ -33,8 +40,18 @@ export const BilledItems = () => {
     deleteBilledItem(item)
   }
 
+  const onClickToAddItem = (e: any) => {
+    e.preventDefault()
+    addBilledItem({
+      id: billedItems.length + 1,
+      title: "Nama Item",
+      qty: 1,
+      price: 0,
+    })
+  }
+
   return (
-    <>
+    <div className="flex flex-col gap-[10px] justify-start">
       {billedItems.map((item) => (
         <>
           <Input.Group
@@ -65,15 +82,21 @@ export const BilledItems = () => {
             <p className="col-span-3 rounded-md border-transparent w-full text-right font-mono pt-[8px]">
               {(item.price * item.qty).toLocaleString()}
             </p>
+            <button
+              onClick={(e) => onClickToDeleteItem(item, e)}
+              className="opacity-50 text-[12px] hover:opacity-100 transition"
+            >
+              Hapus
+            </button>
           </Input.Group>
-          <button
-            onClick={(e) => onClickToDeleteItem(item, e)}
-            className="opacity-50 text-[12px] mb-[8px] mt-[2px]"
-          >
-            Hapus
-          </button>
         </>
       ))}
-    </>
+      <button
+        onClick={(e) => onClickToAddItem(e)}
+        className="opacity-50 text-[12px] hover:opacity-100 transition"
+      >
+        + Tambah Item
+      </button>
+    </div>
   )
 }

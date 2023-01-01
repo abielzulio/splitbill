@@ -91,6 +91,10 @@ const NewBillPage: NextPage = () => {
     )
   }
 
+  const addBilledItem = (billedItem: BilledItem) => {
+    setBilledItems((prevBilledItems) => [...prevBilledItems, billedItem])
+  }
+
   return (
     <Page title={{ secondary: "Buat baru" }}>
       <section className="w-full flex flex-col gap-[20px] h-full px-[12px]">
@@ -176,7 +180,12 @@ const NewBillPage: NextPage = () => {
                 <p className="w-full col-span-3 text-right">Total</p>
               </div>
               <BilledItemsContext.Provider
-                value={{ billedItems, onChangeBilledItem, deleteBilledItem }}
+                value={{
+                  billedItems,
+                  onChangeBilledItem,
+                  deleteBilledItem,
+                  addBilledItem,
+                }}
               >
                 <Form.Item
                   name="billedItems"

@@ -5,8 +5,10 @@ export const BilledItemsContext = createContext<{
   billedItems: BilledItem[]
   onChangeBilledItem: (billedItem: BilledItem) => void
   deleteBilledItem: (billedItem: BilledItem) => void
+  addBilledItem: (billedItem: BilledItem) => void
 }>({
   billedItems: [],
   onChangeBilledItem: () => {},
   deleteBilledItem: () => {},
+  addBilledItem: () => {},
 })
