@@ -18,13 +18,19 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
           .sort((a, b) => Number(a.name) - Number(b.name))
       : undefined
 
-  const onClickToShare = ({ title, url }: { title: string; url: string }) => {
-    message.open({
-      type: "success",
-      content: `Link nota "${title}" telah disalin!`,
-      duration: 5,
-    })
-    navigator.clipboard.writeText(url)
+  const onClickToShare = ({ title, url }: { title: string; url?: string }) => {
+    url
+      ? (message.open({
+          type: "success",
+          content: `Link nota "${title}" telah disalin!`,
+          duration: 5,
+        }),
+        navigator.clipboard.writeText(url))
+      : message.open({
+          type: "error",
+          content: `Link nota "${title}" tidak dapat disalin!`,
+          duration: 5,
+        })
   }
   return (
     <div
