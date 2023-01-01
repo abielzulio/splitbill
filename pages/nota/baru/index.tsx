@@ -1,12 +1,12 @@
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons"
-import { Button, Form, Input, Select, SelectProps } from "antd"
+import { Button, Form, Input, Select } from "antd"
 import { BilledItems } from "components/Bill/BilledItems"
 import Page from "components/Page"
-import { BilledItem, OCRBill } from "data/type"
+import { BilledItem, BilledPerson, OCRBill } from "data/type"
 import { NextPage } from "next"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { BilledItemsContext } from "utils/context"
+import { BilledItemsPersonContext } from "utils/context"
 import { onFinishFailed } from "utils/handler"
 
 const NewBillPage: NextPage = () => {
@@ -20,6 +20,7 @@ const NewBillPage: NextPage = () => {
     created_at: Date.now(),
     title: "",
     img: "",
+    person: [],
     items: [
       {
         id: 1,
@@ -120,6 +121,7 @@ const NewBillPage: NextPage = () => {
   }, [imageUrl, form])
 
   const [billedItems, setBilledItems] = useState<BilledItem[]>(bill.items)
+  const [billedPerson, setBilledPerson] = useState<BilledPerson[]>(bill.person)
 
   const onChangeBilledItem = (billedItem: BilledItem) => {
     setBilledItems((prevBilledItems) =>
@@ -144,6 +146,22 @@ const NewBillPage: NextPage = () => {
       setBill((prevBill) => ({ ...prevBill, items: billedItems }))
     }
   }, [billedItems])
+
+  useEffect(() => {
+    if (bill.person) {
+      setBilledPerson(bill.person)
+    }
+  }, [bill.person])
+
+  const handleChange = (value: string[]) => {
+    const person: BilledPerson[] = value.map((item) => ({
+      id: crypto.randomUUID(),
+      name: item,
+      amount: 0,
+      is_paid: false,
+    }))
+    setBill((prevBill) => ({ ...prevBill, person: person }))
+  }
 
   return (
     <Page title={{ secondary: "Buat baru" }}>
@@ -201,6 +219,34 @@ const NewBillPage: NextPage = () => {
                 </Button>
               )}
             </Form.Item>
+            <Form.Item
+              label="Siapa saja yang akan ikut membayar urunan?"
+              name="billedPerson"
+              className="font-medium bg-transparent"
+              rules={
+                bill.person && bill.person.length === 0
+                  ? [
+                      {
+                        required: true,
+                        message:
+                          "Mohon tulis siapa saja yang akan ikut membayar urunan",
+                      },
+                    ]
+                  : undefined
+              }
+              required
+            >
+              <p className="text-[12px] opacity-50 -mt-[5px] mb-[5px]">
+                Pisah nama dengan koma (,)
+              </p>
+              <Select
+                mode="tags"
+                value={bill.person.map(({ name }) => name)}
+                style={{ width: "100%" }}
+                tokenSeparators={[","]}
+                onChange={handleChange}
+              />
+            </Form.Item>
             <Form.Item className="text-white mt-auto">
               <Button
                 type="primary"
@@ -233,8 +279,9 @@ const NewBillPage: NextPage = () => {
                 <p className="w-full col-span-1">Qty</p>
                 <p className="w-full col-span-3 text-right">Total</p>
               </div>
-              <BilledItemsContext.Provider
+              <BilledItemsPersonContext.Provider
                 value={{
+                  billedPerson,
                   billedItems,
                   onChangeBilledItem,
                   deleteBilledItem,
@@ -248,7 +295,7 @@ const NewBillPage: NextPage = () => {
                 >
                   <BilledItems />
                 </Form.Item>
-              </BilledItemsContext.Provider>
+              </BilledItemsPersonContext.Provider>
               <div className="grid grid-cols-10 gap-[10px] w-full -mt-[10px] mb-[40px]">
                 <p className="w-full col-span-6 opacity-50">Total item</p>
                 <p className="w-full col-span-1 text-center font-semibold font-mono">

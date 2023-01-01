@@ -17,7 +17,7 @@ export interface Bill {
   title: string
   amount?: number
   is_paid?: boolean
-  person?: BilledPerson[]
+  person: BilledPerson[]
 }
 
 export interface OCRBill extends Bill {

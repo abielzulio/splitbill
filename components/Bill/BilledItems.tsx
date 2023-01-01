@@ -1,11 +1,16 @@
 import { Input } from "antd"
 import type { BilledItem } from "data/type"
 import { useContext } from "react"
-import { BilledItemsContext } from "utils/context"
+import { BilledItemsPersonContext } from "utils/context"
 
 export const BilledItems = () => {
-  const { billedItems, onChangeBilledItem, deleteBilledItem, addBilledItem } =
-    useContext(BilledItemsContext)
+  const {
+    billedPerson,
+    billedItems,
+    onChangeBilledItem,
+    deleteBilledItem,
+    addBilledItem,
+  } = useContext(BilledItemsPersonContext)
 
   const onChangeItemTitle = (item: BilledItem, title: string) => {
     onChangeBilledItem({
