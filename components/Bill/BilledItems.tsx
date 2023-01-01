@@ -53,6 +53,7 @@ export const BilledItems = () => {
           >
             <Input
               defaultValue={item.title}
+              placeholder="Nama item"
               required
               value={item.title}
               className="w-full col-span-4 rounded-none bg-transparent"
@@ -60,6 +61,7 @@ export const BilledItems = () => {
             />
             <Input
               defaultValue={item.price}
+              placeholder="Harga item"
               value={item.price}
               required
               className="col-span-2 rounded-md text-right bg-transparent"
@@ -68,6 +70,7 @@ export const BilledItems = () => {
             <Input
               defaultValue={item.qty}
               value={item.qty}
+              placeholder="Kuantitas"
               required
               className="col-span-1 rounded-md text-right bg-transparent"
               onChange={(e) => onChangeItemQty(item, Number(e.target.value))}
