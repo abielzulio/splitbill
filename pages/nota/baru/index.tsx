@@ -9,7 +9,6 @@ import { useEffect, useState } from "react"
 import { BilledItemsContext } from "utils/context"
 import { onFinishFailed } from "utils/handler"
 import { BilledItems } from "components/Bill/BilledItems"
-import Image from "next/image"
 
 const NewBillPage: NextPage = () => {
   const [form] = Form.useForm()
@@ -165,7 +164,11 @@ const NewBillPage: NextPage = () => {
         )}
         {stepState == 2 && (
           <>
-            <p>{form.getFieldValue("billName")}</p>
+            {form.getFieldValue("billName") && (
+              <h3 className="text-[18px] font-semibold">
+                {form.getFieldValue("billName")}
+              </h3>
+            )}
             <Form
               layout="vertical"
               className="flex flex-col h-full"
@@ -195,7 +198,7 @@ const NewBillPage: NextPage = () => {
                   <BilledItems />
                 </Form.Item>
               </BilledItemsContext.Provider>
-              <div className="grid grid-cols-10 gap-[10px] w-full -mt-[10px]">
+              <div className="grid grid-cols-10 gap-[10px] w-full -mt-[10px] mb-[40px]">
                 <p className="w-full col-span-6 opacity-50">Total item</p>
                 <p className="w-full col-span-1 text-center font-semibold font-mono">
                   {billedItems
@@ -208,31 +211,25 @@ const NewBillPage: NextPage = () => {
                     .reduce((total, num) => total + num)
                     .toLocaleString()}
                 </p>
-              </div>
-              <div className="grid grid-cols-10 gap-[10px] w-full mt-[10px]">
-                <p className="w-full col-span-7 row-span-full h-full opacity-50">
+                <p className="w-full col-span-7 h-full opacity-50">
                   Biaya pajak & pelayanan resto
                 </p>
-                <p className="w-full col-span-3 row-span-full h-full text-right font-semibold font-mono">
+                <p className="w-full col-span-3 h-full text-right font-semibold font-mono">
                   {BILLED_ITEMS.fees
                     .map(({ price }) => price)
                     .reduce((total, num) => total + num)
                     .toLocaleString()}
                 </p>
-              </div>
-              <div className="grid grid-cols-10 gap-[10px] w-full mt-[10px]">
-                <p className="w-full col-span-7 row-span-full h-full opacity-50">
+                <p className="w-full col-span-7 marker:h-full opacity-50">
                   Biaya layanan
                 </p>
-                <p className="w-full col-span-3 row-span-full h-full text-right font-semibold font-mono">
-                  {Number("2000").toLocaleString()}
+                <p className="w-full col-span-3 h-full text-right font-semibold font-mono">
+                  {Number("1000").toLocaleString()}
                 </p>
-              </div>
-              <div className="grid grid-cols-8 gap-[10px] w-full mt-[10px]">
-                <p className="w-full col-span-6 row-span-full h-full font-semibold">
+                <p className="w-full col-span-7 h-full font-semibold">
                   Total semua
                 </p>
-                <p className="w-full col-span-2 row-span-full h-full text-right font-semibold font-mono">
+                <p className="w-full col-span-3 h-full text-right font-semibold font-mono">
                   {(
                     billedItems
                       .map((item) => item.qty * item.price)
