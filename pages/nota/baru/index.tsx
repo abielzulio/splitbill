@@ -279,11 +279,11 @@ const NewBillPage: NextPage = () => {
               onFinish={onFinishFirst}
               onFinishFailed={onFinishFailed}
             >
-              <div className="grid grid-cols-10 gap-[10px] w-full mb-[10px] font-semibold">
-                <p className="w-full col-span-4">Nama</p>
-                <p className="w-full col-span-2">Harga</p>
-                <p className="w-full col-span-1">Qty</p>
-                <p className="w-full col-span-3 text-right">Total</p>
+              <div className="flex gap-[10px] w-full mb-[10px] font-semibold">
+                <p className="w-full">Nama</p>
+                <p className="w-[200px] text-left">Harga</p>
+                <p className="w-[100px] text-right">Qty</p>
+                <p className="w-full text-right">Total</p>
               </div>
               <BilledItemsPersonContext.Provider
                 value={{
@@ -302,48 +302,47 @@ const NewBillPage: NextPage = () => {
                   <BilledItems />
                 </Form.Item>
               </BilledItemsPersonContext.Provider>
-              <div className="grid grid-cols-10 gap-[10px] w-full -mt-[10px] mb-[40px]">
-                <p className="w-full col-span-6 opacity-50">Total item</p>
-                <p className="w-full col-span-1 text-center font-semibold font-mono">
-                  {billedItems
-                    .map(({ qty }) => qty)
-                    .reduce((qty, num) => qty + num)}
-                </p>
-                <p className="w-full col-span-3 font-semibold font-mono text-right">
-                  {billedItems
-                    .map((item) => item.qty * item.price)
-                    .reduce((total, num) => total + num)
-                    .toLocaleString()}
-                </p>
-                <p className="w-full col-span-7 h-full opacity-50">
-                  Biaya pajak & pelayanan resto
-                </p>
-                <p className="w-full col-span-3 h-full text-right font-semibold font-mono">
-                  {bill.fees
-                    .map(({ price }) => price)
-                    .reduce((total, num) => total + num)
-                    .toLocaleString()}
-                </p>
-                <p className="w-full col-span-7 marker:h-full opacity-50">
-                  Biaya layanan
-                </p>
-                <p className="w-full col-span-3 h-full text-right font-semibold font-mono">
-                  {Number("1000").toLocaleString()}
-                </p>
-                <p className="w-full col-span-7 h-full font-semibold">
-                  Total semua
-                </p>
-                <p className="w-full col-span-3 h-full text-right font-semibold font-mono">
-                  {(
-                    billedItems
+              <div className="flex flex-col gap-[10px] w-full -mt-[10px] mb-[40px]">
+                <div className="flex gap-[10px] w-full justify-between">
+                  <p className="w-full opacity-50">Total item</p>
+                  <p className="w-full font-semibold font-mono text-right">
+                    {billedItems
                       .map((item) => item.qty * item.price)
-                      .reduce((total, num) => total + num) +
-                    bill.fees
+                      .reduce((total, num) => total + num)
+                      .toLocaleString()}
+                  </p>
+                </div>
+                <div className="flex gap-[10px] w-full justify-between">
+                  <p className="w-full opacity-50">
+                    Biaya pajak & pelayanan resto
+                  </p>
+                  <p className="w-full text-right font-semibold font-mono">
+                    {bill.fees
                       .map(({ price }) => price)
-                      .reduce((total, num) => total + num) +
-                    Number("2000")
-                  ).toLocaleString()}
-                </p>
+                      .reduce((total, num) => total + num)
+                      .toLocaleString()}
+                  </p>
+                </div>
+                <div className="flex gap-[10px] w-full justify-between">
+                  <p className="w-full opacity-50">Biaya layanan</p>
+                  <p className="w-full text-right font-semibold font-mono">
+                    {Number("1000").toLocaleString()}
+                  </p>
+                </div>
+                <div className="flex gap-[10px] w-full justify-between">
+                  <p className="w-full font-semibold">Total semua</p>
+                  <p className="w-full text-right font-semibold font-mono">
+                    {(
+                      billedItems
+                        .map((item) => item.qty * item.price)
+                        .reduce((total, num) => total + num) +
+                      bill.fees
+                        .map(({ price }) => price)
+                        .reduce((total, num) => total + num) +
+                      Number("2000")
+                    ).toLocaleString()}
+                  </p>
+                </div>
               </div>
               <Form.Item className="text-white mt-auto">
                 <Button
