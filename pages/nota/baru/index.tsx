@@ -1,68 +1,72 @@
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons"
 import { Button, Form, Input } from "antd"
 import Page from "components/Page"
+import { BilledItemsContext } from "utils/context"
+import type { BilledItem } from "data/type"
 import { NextPage } from "next"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { onFinishFailed } from "utils/handler"
+import { BILLED_ITEMS } from "data"
 
-interface BilledItem {
-  id: number
-  title: string
-  qty: number
-  price: number
-}
+const BilledItems = () => {
+  const { billedItems, onChangeBilledItem } = useContext(BilledItemsContext)
 
-const BilledItem = ({ item }: { item: BilledItem }) => {
-  const [state, changeState] = useState({
-    title: item.title,
-    qty: item.qty,
-    price: item.price,
-  })
-
-  const onChangeTitle = (e: any) => {
-    changeState((state) => ({
-      ...state,
-      title: e.target.value,
-    }))
+  const onChangeItemTitle = (item: BilledItem, title: string) => {
+    onChangeBilledItem({
+      ...item,
+      title,
+    })
   }
 
-  const onChangeQty = (e: any) => {
-    changeState((state) => ({
-      ...state,
-      qty: e.target.value,
-    }))
+  const onChangeItemQty = (item: BilledItem, qty: number) => {
+    onChangeBilledItem({
+      ...item,
+      qty,
+    })
   }
 
-  const onChangePrice = (e: any) => {
-    changeState((state) => ({
-      ...state,
-      price: e.target.value,
-    }))
+  const onChangeItemPrice = (item: BilledItem, price: number) => {
+    onChangeBilledItem({
+      ...item,
+      price,
+    })
   }
 
   return (
-    <Input.Group className="grid grid-cols-8 gap-[10px] w-full" key={item.id}>
-      <Input
-        defaultValue={state.title}
-        value={state.title}
-        className="w-full col-span-3 rounded-md"
-        onChange={onChangeTitle}
-      />
-      <Input
-        defaultValue={state.qty}
-        value={state.qty}
-        className="col-span-1 rounded-md"
-        onChange={onChangeQty}
-      />
-      <Input
-        defaultValue={state.price}
-        value={state.price}
-        className="col-span-2 rounded-md"
-        onChange={onChangePrice}
-      />
-      <p className="col-span-2 rounded-md">{state.price * state.qty}</p>
-    </Input.Group>
+    <>
+      {billedItems.map((item) => (
+        <Input.Group
+          className="grid grid-cols-10 gap-[5px] w-full h-full"
+          key={item.id}
+        >
+          <Input
+            defaultValue={item.title}
+            required
+            value={item.title}
+            className="w-full col-span-4 rounded-none bg-transparent"
+            onChange={(e) => onChangeItemTitle(item, e.target.value)}
+          />
+          <Input
+            defaultValue={item.price}
+            value={item.price}
+            required
+            className="col-span-2 rounded-md text-right bg-transparent"
+            onChange={(e) => onChangeItemPrice(item, Number(e.target.value))}
+          />
+          <Input
+            defaultValue={item.qty}
+            value={item.qty}
+            required
+            className="col-span-1 rounded-md text-right bg-transparent"
+            onChange={(e) => onChangeItemQty(item, Number(e.target.value))}
+          />
+          <p className="col-span-3 rounded-md border-transparent w-full text-right font-mono pt-[8px]">
+            {(item.price * item.qty).toLocaleString()}
+          </p>
+        </Input.Group>
+      ))}
+    </>
   )
 }
 
@@ -70,7 +74,7 @@ const NewBillPage: NextPage = () => {
   const [form] = Form.useForm()
   const router = useRouter()
 
-  const [stepState, setStepState] = useState<number>(1)
+  const [stepState, setStepState] = useState<number>(2)
 
   const [imageLoading, setImageloading] = useState<boolean>(false)
   const [imageUrl, setImageUrl] = useState<string>()
@@ -128,46 +132,16 @@ const NewBillPage: NextPage = () => {
     }
   }, [imageUrl])
 
-  const ITEMS_BILL = {
-    id: "90ec2b5d-acbd-464b-b2c6-0c54760d577c",
-    title: "Sushi Tei",
-    created_at: Date.now(),
-    items: [
-      {
-        id: 1,
-        title: "Hot Ocha",
-        qty: 2,
-        price: 3_000,
-      },
-      {
-        id: 2,
-        title: "Spicy Salmon Head",
-        qty: 1,
-        price: 68_000,
-      },
-      {
-        id: 3,
-        title: "Unagi Yanagawa",
-        qty: 1,
-        price: 95_000,
-      },
-      {
-        id: 4,
-        title: "Gohan",
-        qty: 1,
-        price: 12_000,
-      },
-    ],
-    fees: [
-      {
-        id: 1,
-        price: 13_575,
-      },
-      {
-        id: 2,
-        price: 19_458,
-      },
-    ],
+  const [billedItems, setBilledItems] = useState<BilledItem[]>(
+    BILLED_ITEMS.items
+  )
+
+  const onChangeBilledItem = (billedItem: BilledItem) => {
+    setBilledItems((prevBilledItems) =>
+      prevBilledItems.map((item) =>
+        item.id === billedItem.id ? billedItem : item
+      )
+    )
   }
 
   return (
@@ -239,47 +213,98 @@ const NewBillPage: NextPage = () => {
           </Form>
         )}
         {stepState == 2 && (
-          <Form
-            layout="vertical"
-            className="flex flex-col h-full"
-            form={form}
-            onFinish={onFinishFirst}
-            onFinishFailed={onFinishFailed}
-          >
-            <Form.Item
-              label="Item Pesanan"
-              name="billedItems"
-              className="font-medium bg-transparent"
-              /*               rules={[
-                { required: true, message: "Mohon tulis nama nota Anda" },
-              ]} */
-              required
+          <>
+            <p>{form.getFieldValue("billName")}</p>
+            <Form
+              layout="vertical"
+              className="flex flex-col h-full"
+              form={form}
+              onFinish={onFinishFirst}
+              onFinishFailed={onFinishFailed}
             >
-              {ITEMS_BILL.items.map((item) => (
-                <BilledItem item={item} />
-              ))}
-
-              {/*               <Input
-                placeholder="Waroeng Steak, Sushi Tei"
-                className="h-[36px] bg-white"
-              /> */}
-            </Form.Item>
-            <Form.Item className="text-white mt-auto">
-              <Button
-                type="primary"
-                className="w-full h-[48px] rounded-xl font-semibold"
-                htmlType="submit"
+              <div className="grid grid-cols-10 gap-[10px] w-full mb-[10px] font-semibold">
+                <p className="w-full col-span-4">Nama</p>
+                <p className="w-full col-span-2">Harga</p>
+                <p className="w-full col-span-1">Qty</p>
+                <p className="w-full col-span-3 text-right">Total</p>
+              </div>
+              <BilledItemsContext.Provider
+                value={{ billedItems, onChangeBilledItem }}
               >
-                Bagikan Urunan
-              </Button>
-              <Button
-                onClick={onGoingFirstFromSecond}
-                className="w-full h-[48px] rounded-xl mt-[10px] font-semibold"
-              >
-                Ganti Nota
-              </Button>
-            </Form.Item>
-          </Form>
+                <Form.Item
+                  name="billedItems"
+                  className="font-medium bg-transparent"
+                  required
+                >
+                  <BilledItems />
+                </Form.Item>
+              </BilledItemsContext.Provider>
+              <div className="grid grid-cols-10 gap-[10px] w-full -mt-[10px]">
+                <p className="w-full col-span-6 opacity-50">Total item</p>
+                <p className="w-full col-span-1 text-center font-semibold font-mono">
+                  {billedItems
+                    .map(({ qty }) => qty)
+                    .reduce((qty, num) => qty + num)}
+                </p>
+                <p className="w-full col-span-3 font-semibold font-mono text-right">
+                  {billedItems
+                    .map((item) => item.qty * item.price)
+                    .reduce((total, num) => total + num)
+                    .toLocaleString()}
+                </p>
+              </div>
+              <div className="grid grid-cols-10 gap-[10px] w-full mt-[10px]">
+                <p className="w-full col-span-7 row-span-full h-full opacity-50">
+                  Biaya pajak & pelayanan resto
+                </p>
+                <p className="w-full col-span-3 row-span-full h-full text-right font-semibold font-mono">
+                  {BILLED_ITEMS.fees
+                    .map(({ price }) => price)
+                    .reduce((total, num) => total + num)
+                    .toLocaleString()}
+                </p>
+              </div>
+              <div className="grid grid-cols-10 gap-[10px] w-full mt-[10px]">
+                <p className="w-full col-span-7 row-span-full h-full opacity-50">
+                  Biaya layanan
+                </p>
+                <p className="w-full col-span-3 row-span-full h-full text-right font-semibold font-mono">
+                  {Number("2000").toLocaleString()}
+                </p>
+              </div>
+              <div className="grid grid-cols-8 gap-[10px] w-full mt-[10px]">
+                <p className="w-full col-span-6 row-span-full h-full font-semibold">
+                  Total semua
+                </p>
+                <p className="w-full col-span-2 row-span-full h-full text-right font-semibold font-mono">
+                  {(
+                    billedItems
+                      .map((item) => item.qty * item.price)
+                      .reduce((total, num) => total + num) +
+                    BILLED_ITEMS.fees
+                      .map(({ price }) => price)
+                      .reduce((total, num) => total + num) +
+                    Number("2000")
+                  ).toLocaleString()}
+                </p>
+              </div>
+              <Form.Item className="text-white mt-auto">
+                <Button
+                  type="primary"
+                  className="w-full h-[48px] rounded-xl font-semibold"
+                  htmlType="submit"
+                >
+                  Bagikan Urunan
+                </Button>
+                <Button
+                  onClick={onGoingFirstFromSecond}
+                  className="w-full h-[48px] rounded-xl mt-[10px] font-semibold"
+                >
+                  Ganti Nota
+                </Button>
+              </Form.Item>
+            </Form>
+          </>
         )}
       </section>
     </Page>
