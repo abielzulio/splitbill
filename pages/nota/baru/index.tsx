@@ -266,6 +266,11 @@ const NewBillPage: NextPage = () => {
                 {form.getFieldValue("billName")}
               </h3>
             )}
+            {bill.created_at && (
+              <p className="text-[12px] opacity-50 -mt-[15px]">
+                {new Date(bill.created_at).toLocaleDateString()}
+              </p>
+            )}
             <Form
               layout="vertical"
               className="flex flex-col h-full"
