@@ -8,6 +8,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { BilledItemsPersonContext } from "utils/context"
 import { onFinishFailed } from "utils/handler"
+import { uuid } from "uuidv4"
 
 const NewBillPage: NextPage = () => {
   const [form] = Form.useForm()
@@ -16,7 +17,7 @@ const NewBillPage: NextPage = () => {
   const [stepState, setStepState] = useState<number>(1)
 
   const [bill, setBill] = useState<OCRBill>({
-    id: crypto.randomUUID(),
+    id: uuid(),
     created_at: Date.now(),
     title: "",
     img: "",
@@ -155,7 +156,7 @@ const NewBillPage: NextPage = () => {
 
   const handleChange = (value: string[]) => {
     const person: BilledPerson[] = value.map((item) => ({
-      id: crypto.randomUUID(),
+      id: uuid(),
       name: item,
       amount: 0,
       is_paid: false,
