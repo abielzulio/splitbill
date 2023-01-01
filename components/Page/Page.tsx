@@ -17,7 +17,7 @@ const Page = ({
   const router = useRouter()
   return (
     <>
-      <Head title={title.secondary ?? title.primary + " — Splitbill"} />
+      <Head title={(title.secondary ?? title.primary) + " — Splitbill"} />
       <div className="flex justify-between md:px-[32px] px-[24px] md:pt-[32px] pt-[32px] pb-[14px] bg-white w-full">
         {title.primary && (
           <h1 className="text-black text-[32px] font-bold w-fit">
