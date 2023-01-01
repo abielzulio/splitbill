@@ -85,9 +85,9 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
             <p className="font-mono tracking-tight font-semibold">
               {unpaidAmount
                 ? `Rp${unpaidAmount.toLocaleString()}`
-                : `Rp${bill.amount.toLocaleString()}`}
+                : bill.amount && `Rp${bill.amount.toLocaleString()}`}
             </p>
-            {!bill.is_paid && (
+            {!bill.is_paid && bill.amount && (
               <p className="font-mono text-[12px] opacity-50 tracking-tight">
                 Rp{bill.amount.toLocaleString()}
               </p>
