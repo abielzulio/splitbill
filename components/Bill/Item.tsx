@@ -4,17 +4,19 @@ import { Icon } from "components/Icon"
 import { green, grey } from "color"
 
 export const BillItem = ({ bill }: { bill: Bill }) => {
-  const unpaidAmount = !bill.is_paid
-    ? bill.person
-        .filter(({ is_paid }) => is_paid == false)
-        .map((item) => item.amount)
-        .reduce((item, num) => item + num)
-    : undefined
-  const billedPerson = !bill.is_paid
-    ? bill.person
-        .sort((a, b) => Number(a.is_paid) - Number(b.is_paid))
-        .sort((a, b) => Number(a.name) - Number(b.name))
-    : undefined
+  const unpaidAmount =
+    !bill.is_paid && bill.person
+      ? bill.person
+          .filter(({ is_paid }) => is_paid == false)
+          .map((item) => item.amount)
+          .reduce((item, num) => item + num)
+      : undefined
+  const billedPerson =
+    !bill.is_paid && bill.person
+      ? bill.person
+          .sort((a, b) => Number(a.is_paid) - Number(b.is_paid))
+          .sort((a, b) => Number(a.name) - Number(b.name))
+      : undefined
 
   const onClickToShare = ({ title, url }: { title: string; url: string }) => {
     message.open({
@@ -26,7 +28,6 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
   }
   return (
     <div
-      key={bill.id}
       className={`w-full flex items-start gap-[15px] ${
         bill.is_paid && "hover:bg-gray-100"
       } transition bg-white rounded-xl px-[12px] pt-[10px] pb-[15px]`}

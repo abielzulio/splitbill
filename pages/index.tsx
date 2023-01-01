@@ -22,7 +22,7 @@ const BillsPage: NextPage = () => {
     <Page title={{ primary: "Nota" }} tabState="Home" button={button}>
       {empty ? (
         <section className="h-full w-full justify-center flex items-center text-center text-[14px] opacity-50">
-          <p>Klik ikon "+" untuk membuat urunan pertama Anda</p>
+          <p>Klik ikon &quot;+&quot; untuk membuat urunan pertama Anda</p>
         </section>
       ) : (
         <>
@@ -33,7 +33,9 @@ const BillsPage: NextPage = () => {
                   Belum Dibayar
                 </h2>
                 <section className="w-full flex flex-col">
-                  {UNPAID_BILLS.map((bill) => bill && <BillItem bill={bill} />)}
+                  {UNPAID_BILLS.map(
+                    (bill) => bill && <BillItem bill={bill} key={bill.id} />
+                  )}
                 </section>
               </section>
             )}
@@ -43,7 +45,9 @@ const BillsPage: NextPage = () => {
                   Histori
                 </h2>
                 <section className="w-full flex flex-col">
-                  {PAID_BILLS.map((bill) => bill && <BillItem bill={bill} />)}
+                  {PAID_BILLS.map(
+                    (bill) => bill && <BillItem bill={bill} key={bill.id} />
+                  )}
                 </section>
               </section>
             )}
