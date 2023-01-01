@@ -1,4 +1,4 @@
-import { Bill } from "type"
+import { Bill } from "data/type"
 import { Avatar, Button, message, Tooltip } from "antd"
 import { Icon } from "components/Icon"
 import { green, grey } from "color"
