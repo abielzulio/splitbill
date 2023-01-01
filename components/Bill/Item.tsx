@@ -1,31 +1,39 @@
-import { Bill } from "type"
+import { Bill } from "data/type"
 import { Avatar, Button, message, Tooltip } from "antd"
 import { Icon } from "components/Icon"
 import { green, grey } from "color"
 
 export const BillItem = ({ bill }: { bill: Bill }) => {
-  const unpaidAmount = !bill.is_paid
-    ? bill.person
-        .filter(({ is_paid }) => is_paid == false)
-        .map((item) => item.amount)
-        .reduce((item, num) => item + num)
-    : undefined
-  const billedPerson = !bill.is_paid
-    ? bill.person
-        .sort((a, b) => Number(a.is_paid) - Number(b.is_paid))
-        .sort((a, b) => Number(a.name) - Number(b.name))
-    : undefined
+  const unpaidAmount =
+    !bill.is_paid && bill.person
+      ? bill.person
+          .filter(({ is_paid }) => is_paid == false)
+          .map((item) => item.amount)
+          .reduce((item, num) => item + num)
+      : undefined
+  const billedPerson =
+    !bill.is_paid && bill.person
+      ? bill.person
+          .sort((a, b) => Number(a.is_paid) - Number(b.is_paid))
+          .sort((a, b) => Number(a.name) - Number(b.name))
+      : undefined
 
-  const onClickToShare = () => {
-    message.open({
-      type: "success",
-      content: `Link nota "${bill.title}" telah disalin!`,
-      duration: 5,
-    })
+  const onClickToShare = ({ title, url }: { title: string; url?: string }) => {
+    url
+      ? (message.open({
+          type: "success",
+          content: `Link nota "${title}" telah disalin!`,
+          duration: 5,
+        }),
+        navigator.clipboard.writeText(url))
+      : message.open({
+          type: "error",
+          content: `Link nota "${title}" tidak dapat disalin!`,
+          duration: 5,
+        })
   }
   return (
     <div
-      key={bill.id}
       className={`w-full flex items-start gap-[15px] ${
         bill.is_paid && "hover:bg-gray-100"
       } transition bg-white rounded-xl px-[12px] pt-[10px] pb-[15px]`}
@@ -83,9 +91,9 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
             <p className="font-mono tracking-tight font-semibold">
               {unpaidAmount
                 ? `Rp${unpaidAmount.toLocaleString()}`
-                : `Rp${bill.amount.toLocaleString()}`}
+                : bill.amount && `Rp${bill.amount.toLocaleString()}`}
             </p>
-            {!bill.is_paid && (
+            {!bill.is_paid && bill.amount && (
               <p className="font-mono text-[12px] opacity-50 tracking-tight">
                 Rp{bill.amount.toLocaleString()}
               </p>
@@ -94,10 +102,14 @@ export const BillItem = ({ bill }: { bill: Bill }) => {
         </div>
         {!bill.is_paid && (
           <div className="grid grid-cols-2 gap-[5px]">
-            <Button>Open</Button>
-            <Button onClick={() => onClickToShare()} type="primary">
-              Share
+            <Button
+              onClick={() =>
+                onClickToShare({ title: bill.title, url: bill.url })
+              }
+            >
+              Bagikan
             </Button>
+            <Button type="primary">Buka</Button>
           </div>
         )}
       </div>
