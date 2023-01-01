@@ -1,18 +1,11 @@
 import { Input } from "antd"
 import type { BilledItem } from "data/type"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { BilledItemsContext } from "utils/context"
 
 export const BilledItems = () => {
   const { billedItems, onChangeBilledItem, deleteBilledItem, addBilledItem } =
     useContext(BilledItemsContext)
-
-  const [newBilledItem, setNewBilledItem] = useState<BilledItem>({
-    id: 5,
-    title: "",
-    qty: 0,
-    price: 0,
-  })
 
   const onChangeItemTitle = (item: BilledItem, title: string) => {
     onChangeBilledItem({
@@ -43,8 +36,8 @@ export const BilledItems = () => {
   const onClickToAddItem = (e: any) => {
     e.preventDefault()
     addBilledItem({
-      id: billedItems.length + 1,
-      title: "Nama Item",
+      id: billedItems.length + 1 + 1,
+      title: "",
       qty: 1,
       price: 0,
     })
