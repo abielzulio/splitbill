@@ -1,47 +1,5 @@
 import type { Bill, OCRBill } from "data/type"
 
-export let BILLED_ITEMS: OCRBill = {
-  id: "90ec2b5d-acbd-464b-b2c6-0c54760d577c",
-  title: "Sushi Tei",
-  created_at: Date.now(),
-  items: [
-    {
-      id: 1,
-      title: "Hot Ocha",
-      qty: 2,
-      price: 3_000,
-    },
-    {
-      id: 2,
-      title: "Spicy Salmon Head",
-      qty: 1,
-      price: 68_000,
-    },
-    {
-      id: 3,
-      title: "Unagi Yanagawa",
-      qty: 1,
-      price: 95_000,
-    },
-    {
-      id: 4,
-      title: "Gohan",
-      qty: 1,
-      price: 12_000,
-    },
-  ],
-  fees: [
-    {
-      id: 1,
-      price: 13_575,
-    },
-    {
-      id: 2,
-      price: 19_458,
-    },
-  ],
-}
-
 export const UNPAID_BILLS: Bill[] = [
   {
     id: "20b0cc8c-88a7-4407-88db-cdc493267594",

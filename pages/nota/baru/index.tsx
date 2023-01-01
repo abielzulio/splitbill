@@ -1,20 +1,62 @@
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons"
-import { Button, Form, Input } from "antd"
+import { Button, Form, Input, Select, SelectProps } from "antd"
+import { BilledItems } from "components/Bill/BilledItems"
 import Page from "components/Page"
-import { BILLED_ITEMS } from "data"
-import type { BilledItem } from "data/type"
+import { BilledItem, OCRBill } from "data/type"
 import { NextPage } from "next"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { BilledItemsContext } from "utils/context"
 import { onFinishFailed } from "utils/handler"
-import { BilledItems } from "components/Bill/BilledItems"
 
 const NewBillPage: NextPage = () => {
   const [form] = Form.useForm()
   const router = useRouter()
 
   const [stepState, setStepState] = useState<number>(1)
+
+  const [bill, setBill] = useState<OCRBill>({
+    id: crypto.randomUUID(),
+    created_at: Date.now(),
+    title: "",
+    img: "",
+    items: [
+      {
+        id: 1,
+        title: "Hot Ocha",
+        qty: 2,
+        price: 3_000,
+      },
+      {
+        id: 2,
+        title: "Spicy Salmon Head",
+        qty: 1,
+        price: 68_000,
+      },
+      {
+        id: 3,
+        title: "Unagi Yanagawa",
+        qty: 1,
+        price: 95_000,
+      },
+      {
+        id: 4,
+        title: "Gohan",
+        qty: 1,
+        price: 12_000,
+      },
+    ],
+    fees: [
+      {
+        id: 1,
+        price: 13_575,
+      },
+      {
+        id: 2,
+        price: 19_458,
+      },
+    ],
+  })
 
   const [imageLoading, setImageloading] = useState<boolean>(false)
   const [imageUrl, setImageUrl] = useState<string>()
@@ -29,6 +71,11 @@ const NewBillPage: NextPage = () => {
 
   const onFinishFirst = () => {
     setFirstStepLoading(true)
+    setBill((prevBill) => ({
+      ...prevBill,
+      title: form.getFieldValue("billName"),
+      img: imageUrl,
+    }))
   }
 
   const onUploadBillImage = (e: any) => {
@@ -72,9 +119,7 @@ const NewBillPage: NextPage = () => {
     }
   }, [imageUrl, form])
 
-  const [billedItems, setBilledItems] = useState<BilledItem[]>(
-    BILLED_ITEMS.items
-  )
+  const [billedItems, setBilledItems] = useState<BilledItem[]>(bill.items)
 
   const onChangeBilledItem = (billedItem: BilledItem) => {
     setBilledItems((prevBilledItems) =>
@@ -93,6 +138,12 @@ const NewBillPage: NextPage = () => {
   const addBilledItem = (billedItem: BilledItem) => {
     setBilledItems((prevBilledItems) => [...prevBilledItems, billedItem])
   }
+
+  useEffect(() => {
+    if (billedItems) {
+      setBill((prevBill) => ({ ...prevBill, items: billedItems }))
+    }
+  }, [billedItems])
 
   return (
     <Page title={{ secondary: "Buat baru" }}>
@@ -215,7 +266,7 @@ const NewBillPage: NextPage = () => {
                   Biaya pajak & pelayanan resto
                 </p>
                 <p className="w-full col-span-3 h-full text-right font-semibold font-mono">
-                  {BILLED_ITEMS.fees
+                  {bill.fees
                     .map(({ price }) => price)
                     .reduce((total, num) => total + num)
                     .toLocaleString()}
@@ -234,7 +285,7 @@ const NewBillPage: NextPage = () => {
                     billedItems
                       .map((item) => item.qty * item.price)
                       .reduce((total, num) => total + num) +
-                    BILLED_ITEMS.fees
+                    bill.fees
                       .map(({ price }) => price)
                       .reduce((total, num) => total + num) +
                     Number("2000")
