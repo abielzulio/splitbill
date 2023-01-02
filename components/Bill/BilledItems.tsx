@@ -41,7 +41,7 @@ export const BilledItems = () => {
   const onClickToAddItem = (e: any) => {
     e.preventDefault()
     addBilledItem({
-      id: billedItems.length + 1 + 1,
+      id: billedItems[billedItems.length - 1].id + 1,
       title: "",
       qty: 1,
       price: 0,
