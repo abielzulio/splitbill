@@ -5,8 +5,8 @@ import Page from "components/Page"
 import { BilledItem, BilledPerson, OCRBill } from "data/type"
 import { NextPage } from "next"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
-import { BilledItemsPersonContext } from "utils/context"
+import { useContext, useEffect, useState } from "react"
+import { BilledItemsContext, BilledPersonContext } from "utils/context"
 import { onFinishFailed } from "utils/handler"
 import { uuid } from "uuidv4"
 
@@ -14,14 +14,27 @@ const NewBillPage: NextPage = () => {
   const [form] = Form.useForm()
   const router = useRouter()
 
-  const [stepState, setStepState] = useState<number>(1)
+  const [stepState, setStepState] = useState<number>(2)
 
   const [bill, setBill] = useState<OCRBill>({
     id: uuid(),
     created_at: Date.now(),
     title: "",
     img: "",
-    person: [],
+    person: [
+      {
+        id: "7c2b3184-2cf4-4927-812c-064182bd4ba7",
+        name: "Alya",
+        amount: 0,
+        is_paid: false,
+      },
+      {
+        id: "7966ad99-f5dc-40a9-b4ea-455a6ac4d23b",
+        name: "Abiel",
+        amount: 0,
+        is_paid: false,
+      },
+    ],
     items: [
       {
         id: 1,
@@ -285,23 +298,24 @@ const NewBillPage: NextPage = () => {
                 <p className="w-[100px] text-right">Qty</p>
                 <p className="w-full text-right">Total</p>
               </div>
-              <BilledItemsPersonContext.Provider
+              <BilledItemsContext.Provider
                 value={{
-                  billedPerson,
                   billedItems,
                   onChangeBilledItem,
                   deleteBilledItem,
                   addBilledItem,
                 }}
               >
-                <Form.Item
-                  name="billedItems"
-                  className="font-medium bg-transparent"
-                  required
-                >
-                  <BilledItems />
-                </Form.Item>
-              </BilledItemsPersonContext.Provider>
+                <BilledPersonContext.Provider value={{ billedPerson }}>
+                  <Form.Item
+                    name="billedItems"
+                    className="font-medium bg-transparent"
+                    required
+                  >
+                    <BilledItems />
+                  </Form.Item>
+                </BilledPersonContext.Provider>
+              </BilledItemsContext.Provider>
               <div className="flex flex-col gap-[10px] w-full -mt-[10px] mb-[40px]">
                 <div className="flex gap-[10px] w-full justify-between">
                   <p className="w-full opacity-50">Total item</p>

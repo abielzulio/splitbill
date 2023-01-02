@@ -1,16 +1,110 @@
-import { Input } from "antd"
-import type { BilledItem } from "data/type"
-import { useContext } from "react"
-import { BilledItemsPersonContext } from "utils/context"
+import { Input, Select } from "antd"
+import type { BilledItem, BilledPerson } from "data/type"
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react"
+import { BilledItemsContext, BilledPersonContext } from "utils/context"
+
+const BilledItemsPersonItem = ({
+  options,
+  maxQty,
+  availableQty,
+  setAvailableQty,
+}: {
+  availableQty: number
+  maxQty: number
+  options: BilledPerson[]
+  setAvailableQty: Dispatch<SetStateAction<number>>
+}) => {
+  const [personQty, setPersonQty] = useState<number>(0)
+
+  const onChangeBilledPersonQty = (e: any) => {
+    setAvailableQty(maxQty - Number(e.target.value))
+  }
+
+  useEffect(() => {
+    console.log(availableQty)
+  }, [availableQty])
+
+  return (
+    <div className="flex w-[290px] gap-[5px]">
+      <Select
+        size="small"
+        className="w-full"
+        options={options.map(({ name, id }) => ({
+          id,
+          value: name,
+          label: name,
+        }))}
+      />
+      <Input
+        placeholder="Kuantitas"
+        required
+        onChange={onChangeBilledPersonQty}
+        style={{ width: "80px" }}
+        className="rounded-md text-right bg-transparent"
+      />
+    </div>
+  )
+}
+
+const BilledItemsPerson = ({
+  maxQty,
+  options,
+}: {
+  maxQty: number
+  options: BilledPerson[]
+}) => {
+  const [showBilledPerson, setShowBilledPerson] = useState<boolean>(false)
+  const onClickToInitBilledPerson = (e: any, n: number) => {
+    e.preventDefault()
+    setShowBilledPerson(!showBilledPerson)
+  }
+
+  const [availableQty, setAvailableQty] = useState<number>(maxQty)
+
+  /*   useEffect(() => {
+    if (availableQty === 0) {
+      setAvailableQty(maxQty)
+    }
+  }, [availableQty]) */
+
+  return (
+    <div className="flex flex-col gap-[10px] w-full">
+      {showBilledPerson && (
+        <div className="flex flex-col gap-[10px] mt-[5px] w-full">
+          {Array.from(
+            { length: availableQty <= 1 ? availableQty + 1 : availableQty },
+            (_, i) => i
+          ).map((_, i) => (
+            <BilledItemsPersonItem
+              options={options}
+              maxQty={maxQty}
+              availableQty={availableQty}
+              setAvailableQty={setAvailableQty}
+            />
+          ))}
+        </div>
+      )}
+      <button
+        onClick={(e) => onClickToInitBilledPerson(e, maxQty)}
+        className="opacity-50 text-[12px] hover:opacity-100 transition mr-auto"
+      >
+        {showBilledPerson ? "Tutup" : "Siapa"}
+      </button>
+    </div>
+  )
+}
 
 export const BilledItems = () => {
-  const {
-    billedPerson,
-    billedItems,
-    onChangeBilledItem,
-    deleteBilledItem,
-    addBilledItem,
-  } = useContext(BilledItemsPersonContext)
+  const { billedItems, onChangeBilledItem, deleteBilledItem, addBilledItem } =
+    useContext(BilledItemsContext)
+
+  const { billedPerson } = useContext(BilledPersonContext)
 
   const onChangeItemTitle = (item: BilledItem, title: string) => {
     onChangeBilledItem({
@@ -51,6 +145,7 @@ export const BilledItems = () => {
   return (
     <div className="flex flex-col gap-[10px] justify-start">
       {billedItems.map((item) => (
+      {billedItems.map((item, id, arr) => (
         <>
           <Input.Group
             className="flex flex-col gap-[5px] w-full h-full"
@@ -89,14 +184,17 @@ export const BilledItems = () => {
                 {(item.price * item.qty).toLocaleString()}
               </p>
             </div>
-            {arr.length > 1 && (
-              <button
-                onClick={(e) => onClickToDeleteItem(item, e)}
-                className="opacity-50 text-[12px] hover:opacity-100 transition mr-auto"
-              >
-                Hapus
-              </button>
-            )}
+            <div className="flex gap-[5px] justify-between items-start">
+              <BilledItemsPerson maxQty={item.qty} options={billedPerson} />
+              {arr.length > 1 && (
+                <button
+                  onClick={(e) => onClickToDeleteItem(item, e)}
+                  className="opacity-50 text-[12px] hover:opacity-100 transition ml-auto"
+                >
+                  Hapus
+                </button>
+              )}
+            </div>
           </Input.Group>
         </>
       ))}
