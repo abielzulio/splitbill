@@ -89,12 +89,14 @@ export const BilledItems = () => {
                 {(item.price * item.qty).toLocaleString()}
               </p>
             </div>
-            <button
-              onClick={(e) => onClickToDeleteItem(item, e)}
-              className="opacity-50 text-[12px] hover:opacity-100 transition mr-auto"
-            >
-              Hapus
-            </button>
+            {arr.length > 1 && (
+              <button
+                onClick={(e) => onClickToDeleteItem(item, e)}
+                className="opacity-50 text-[12px] hover:opacity-100 transition mr-auto"
+              >
+                Hapus
+              </button>
+            )}
           </Input.Group>
         </>
       ))}
