@@ -157,7 +157,7 @@ export const BilledItems = () => {
                 placeholder="Nama item"
                 required
                 value={item.title}
-                className="w-full rounded-none bg-transparent"
+                className="w-full rounded-md bg-transparent"
                 onChange={(e) => onChangeItemTitle(item, e.target.value)}
               />
               <Input
